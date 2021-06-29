@@ -212,3 +212,26 @@ def csv_to_dataframe(url, key1, key2=None):
         df= pd.DataFrame(data_list)
     return df
 
+# Carl Sagan's Cloud Computing for Number 3
+
+def carl_sagan():
+
+    base_url = 'https://python.zach.lol'
+    api_url = base_url + '/api/v1/'
+    response = requests.get(api_url + 'sales')
+    data = response.json()
+        
+    # create list from 1st page
+    output = data['payload']['sales']
+
+    # loop through the pages and add to list
+    while data['payload']['next_page'] != None:
+        
+        response = requests.get(base_url + data['payload']['next_page'])
+        data = response.json()
+        output.extend(data['payload']['sales'])
+        
+        df_sales = pd.DataFrame(output)
+    
+    return df_sales
+
