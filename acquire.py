@@ -68,30 +68,51 @@ def new_sales():
     return pd.DataFrame(items_list)
 
 def new_opsd():
+    '''
+    This function reads in the opsd germany dataset and returns it as a pandas DataFrame.
+    '''
+
     OPSD = pd.read_csv('https://raw.githubusercontent.com/jenfly/opsd/master/opsd_germany_daily.csv')
     return OPSD
 
 ############################# Data to CSV ####################################
 
 def items_csv():
+    '''
+    This function stores the grocery items locally as a .csv
+    '''
     items = get_items()
     return items.to_csv('grocery_items.csv')
 
 def stores_csv():
+    '''
+    This function stores the grocery stores locally as a .csv
+    '''
     stores = get_stores()
     return stores.to_csv('grocery_stores.csv')
 
 def sales_csv():
+    '''
+    This function stores the grocery sales locally as a .csv
+    '''
     sales = get_sales()
     return sales.to_csv('grocery_sales.csv')
 
 def opsd_csv():
+    '''
+    This function stores the opsd germany locally as a .csv
+    '''
     opsd = get_opsd()
     return opsd.to_csv('opsd_germany.csv')
 
 ######################## Merge Data #############################################
 
 def all_groceries():
+    '''
+    This functions reads in three different csv files as pandas DataFrames, and merges them
+    into one df. It drops unnamed columns. Cannot use with other dataframes without changing 
+    the name of the csv files, and hyperparameters of how/on the tables are merged
+    '''
     
     items_df = pd.read_csv('grocery_items.csv')
     stores_df = pd.read_csv('grocery_stores.csv')
@@ -105,7 +126,11 @@ def all_groceries():
 ######################## Get Data from CSV #####################################
 
 def get_items():
-    
+    '''
+    This function operates on top of the new_items function. It first searches locally for a csv file.
+    If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
+    calls the new_items function, and writes that df to a local csv.
+    '''
     if os.path.isfile('grocery_items.csv'):
         # If csv file exists read in data from csv file.
         df = pd.read_csv('grocery_items.csv', index_col=0)
@@ -119,7 +144,11 @@ def get_items():
     return df
 
 def get_stores():
-    
+    '''
+    This function operates on top of the new_stores function. It first searches locally for a csv file.
+    If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
+    calls the new_stores function, and writes that df to a local csv.
+    '''
     if os.path.isfile('grocery_stores.csv'):
         # If csv file exists read in data from csv file.
         df = pd.read_csv('grocery_stores.csv', index_col=0)
@@ -133,7 +162,11 @@ def get_stores():
     return df
 
 def get_sales():
-    
+    '''
+    This function operates on top of the new_sales function. It first searches locally for a csv file.
+    If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
+    calls the new_sales function, and writes that df to a local csv.
+    '''
     if os.path.isfile('grocery_sales.csv'):
         # If csv file exists read in data from csv file.
         df = pd.read_csv('grocery_sales.csv', index_col=0)
@@ -147,7 +180,11 @@ def get_sales():
     return df
 
 def get_opsd():
-    
+    '''
+    This function operates on top of the new_opsd function. It first searches locally for a csv file.
+    If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
+    calls the new_opsd function, and writes that df to a local csv.
+    '''
     if os.path.isfile('opsd_germany.csv'):
         # If csv file exists read in data from csv file.
         df = pd.read_csv('opsd_germany.csv', index_col=0)
