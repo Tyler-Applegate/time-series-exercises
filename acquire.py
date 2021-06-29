@@ -8,7 +8,10 @@ import os
 ########################### New Data Acquistion ###############################
 
 def new_items():
-    
+    '''
+    This function is specific to Zach's lol grocery dataset. It will itirate through each
+    page of items and return a pandas DataFrame of all items.
+    '''
     items_list = []
     base_url = 'https://python.zach.lol/api/v1'
     response = requests.get(base_url + '/items')
@@ -25,16 +28,30 @@ def new_items():
     return pd.DataFrame(items_list)
 
 def new_stores():
-    
+     '''
+    This function is specific to Zach's lol grocery dataset. It will itirate through each
+    page of stores and return a pandas DataFrame of all stores.
+    '''   
+    items_list = []
     base_url = 'https://python.zach.lol/api/v1'
     response = requests.get(base_url + '/stores')
     data = response.json()
-    stores = data['payload']['stores']
+    n = data['payload']['max_page']
 
-    return pd.DataFrame(stores)
+    for i in range(1, n+1):
+        url = 'https://python.zach.lol/api/v1/stores?page='+str(i)
+        response = requests.get(url)
+        data = response.json()
+        page_items = data['payload']['stores']
+        items_list += page_items
+
+    return pd.DataFrame(item_list)
 
 def new_sales():
-    
+     '''
+    This function is specific to Zach's lol grocery dataset. It will itirate through each
+    page of sales and return a pandas DataFrame of all sales.
+    '''   
     items_list = []
     base_url = 'https://python.zach.lol/api/v1'
     response = requests.get(base_url + '/sales')
@@ -141,5 +158,20 @@ def get_opsd():
         # Cache data
         df.to_csv('opsd_germany.csv')
 
+    return df
+
+####################### Playland Playtime Functions #################################
+
+#Function to take in any csv and create a dataframe
+def csv_to_dataframe(url, key1, key2=None):
+    # Let's take an example url and make a get request
+    response = requests.get(url)
+    #create dictionary object
+    data= response.json()
+    if key2 != None:
+        data_list = response.json()[key1][key2]
+    else:
+        data_list = response.json()[key1]
+        df= pd.DataFrame(data_list)
     return df
 
