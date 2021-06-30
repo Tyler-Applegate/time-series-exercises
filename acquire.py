@@ -238,7 +238,7 @@ def carl_sagan():
 
 ################## Now we're getting fancy #############################################
 
-def new_items_page_range(alpha=1, omega=0):
+def new_items_page_range(alpha=1, omega='ALL'):
     '''
     This function is specific to Zach's lol grocery dataset. It will itirate through each
     page of items and return a pandas DataFrame of all items in the page range. The arguement alpha is used as 
@@ -251,7 +251,7 @@ def new_items_page_range(alpha=1, omega=0):
     data = response.json()
     n = data['payload']['max_page']
     
-    if omega == 0:
+    if omega == 'ALL':
         
         for i in range(alpha, n+1):
             url = 'https://python.zach.lol/api/v1/items?page='+str(i)
@@ -271,7 +271,7 @@ def new_items_page_range(alpha=1, omega=0):
         
     return pd.DataFrame(items_list)
 
-def new_stores_page_range(alpha=1, omega=0):
+def new_stores_page_range(alpha=1, omega='ALL'):
     '''
     This function is specific to Zach's lol grocery dataset. It will itirate through each
     page of stores and return a pandas DataFrame of all stores in the page range. The arguement 
@@ -284,7 +284,7 @@ def new_stores_page_range(alpha=1, omega=0):
     data = response.json()
     n = data['payload']['max_page']
     
-    if omega == 0:
+    if omega == 'ALL':
         
         for i in range(alpha, n+1):
             url = 'https://python.zach.lol/api/v1/stores?page='+str(i)
@@ -304,7 +304,7 @@ def new_stores_page_range(alpha=1, omega=0):
 
     return pd.DataFrame(item_list)
 
-def new_sales_page_range(alpha=1, omega=0):
+def new_sales_page_range(alpha=1, omega='ALL'):
     '''
     This function is specific to Zach's lol grocery dataset. It will itirate through each
     page of sales and return a pandas DataFrame of all sales in the page range. The arguement 
@@ -317,7 +317,7 @@ def new_sales_page_range(alpha=1, omega=0):
     data = response.json()
     n = data['payload']['max_page']
     
-    if omega == 0:
+    if omega == 'ALL':
 
         for i in range(alpha,n+1):
             url = 'https://python.zach.lol/api/v1/sales?page='+str(i)
@@ -337,25 +337,25 @@ def new_sales_page_range(alpha=1, omega=0):
 
     return pd.DataFrame(items_list)
 
-def get_items_page_range(alpha=1, omega=0):
+def get_items_page_range(alpha=1, omega='ALL'):
     '''
     This function operates on top of the new_items function. It first searches locally for a csv file.
     If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
     calls the new_items function, and writes that df to a local csv.
     '''
-    if os.path.isfile('grocery_items'+'_'+str(alpha)+'_'+str(omega)+'.csv'):
+    if os.path.isfile('grocery_items' + '_pages_' + str(alpha) + '_' + str(omega) + '.csv'):
         # If csv file exists read in data from csv file.
-        df = pd.read_csv('grocery_items'+'_'+str(alpha)+'_'+str(omega)+'.csv', index_col=0)
+        df = pd.read_csv('grocery_items' + '_pages_' +str(alpha)+'_'+str(omega)+'.csv', index_col=0)
         
     else:
         # Read fresh data from db into a DataFrame
         df = new_items_page_range(alpha, omega)
         # Cache data
-        df.to_csv('grocery_items'+'_'+str(alpha)+'_'+str(omega)+'.csv')
+        df.to_csv('grocery_items' + '_pages_' + str(alpha) + '_' + str(omega) + '.csv')
 
     return df
 
-def get_stores_page_range(alpha=1, omega=0):
+def get_stores_page_range(alpha=1, omega='ALL'):
     '''
     This function operates on top of the new_stores function. It first searches locally for a csv file.
     If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
@@ -373,7 +373,7 @@ def get_stores_page_range(alpha=1, omega=0):
 
     return df
 
-def get_sales_page_range(alpha=1, omega=0):
+def get_sales_page_range(alpha=1, omega='ALL'):
     '''
     This function operates on top of the new_sales function. It first searches locally for a csv file.
     If there is a local csv, it writes it into a pandas DataFrame. If there is no local csv, this function then
