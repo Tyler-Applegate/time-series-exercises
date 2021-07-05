@@ -19,7 +19,7 @@ def day_of_week(df):
     df['day_of_week'] = df.index.day_name()
     return df
 
-def month(df):
+def add_month_col(df):
     df['month'] = df.index.month_name()
     return df
 
@@ -36,7 +36,7 @@ def prep_groceries(df, col):
     df = to_datetime(df, col)
     df = index_reset(df, col)
     df = day_of_week(df)
-    df = month(df)
+    df = add_month_col(df)
     df = update_sales(df)
     df = create_sales_total(df)
     return df
@@ -62,7 +62,7 @@ def fill_missing(df):
 def prep_opsd(df, col):
     df = to_datetime(df, col)
     df = index_reset(df, col)
-    df = month(df)
+    df = add_month_col(df)
     df = make_year(df)
     df = fill_missing(df)
     return df
