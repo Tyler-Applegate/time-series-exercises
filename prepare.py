@@ -32,12 +32,7 @@ def create_sales_total(df):
     df['sales_total'] = df['sale_qty'] * df['item_price']
     return df
 
-def drop_time(df):
-    df['sale_date'] = df['sale_date'].apply(lambda x: x[:-13])
-    return df
-
 def prep_groceries(df, col):
-    df = drop_time(df)
     df = to_datetime(df, col)
     df = index_reset(df, col)
     df = day_of_week(df)
