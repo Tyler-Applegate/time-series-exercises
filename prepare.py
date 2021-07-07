@@ -67,3 +67,10 @@ def prep_opsd(df, col):
     df = fill_missing(df)
     return df
 
+######################## Other Useful Functions ###############################
+
+def convert_int(df, col_list):
+    for col in col_list:
+        df[col] = df[col].astype(int)
+    return df
+
